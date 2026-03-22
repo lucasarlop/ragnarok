@@ -13,7 +13,7 @@ set "REPO=https://raw.githubusercontent.com/lucasarlop/ragnarok/main"
 :: Check if curl exists
 where curl >nul 2>&1
 if errorlevel 1 (
-    echo [ERRO] curl nao encontrado. Abrindo o jogo sem atualizar...
+    echo  [ERRO] curl nao encontrado. Abrindo o jogo sem atualizar...
     goto :launch
 )
 
@@ -27,13 +27,13 @@ if errorlevel 1 (
 )
 
 :: Compare versions
-set LOCAL_VER=0
+set "LOCAL_VER=0"
 if exist "_local_version.txt" set /p LOCAL_VER=<"_local_version.txt"
 set /p REMOTE_VER=<"_remote_version.txt"
 del /q "_remote_version.txt" 2>nul
 
 if "%LOCAL_VER%"=="%REMOTE_VER%" (
-    echo  Jogo ja esta atualizado! (v%LOCAL_VER%)
+    echo  Jogo ja esta atualizado! ^(v%LOCAL_VER%^)
     echo.
     goto :launch
 )
@@ -41,6 +41,9 @@ if "%LOCAL_VER%"=="%REMOTE_VER%" (
 echo  Atualizacao encontrada! v%LOCAL_VER% -^> v%REMOTE_VER%
 echo  Baixando atualizacoes...
 echo.
+
+:: Save version BEFORE running patch (so it's saved even if patch crashes)
+(echo %REMOTE_VER%)>"_local_version.txt"
 
 :: Download patch script and run it
 curl -s -f "%REPO%/patcher/patch.bat" -o "_patch.bat" 2>nul
@@ -52,8 +55,6 @@ if errorlevel 1 (
 call "_patch.bat"
 del /q "_patch.bat" 2>nul
 
-:: Update local version
-(echo %REMOTE_VER%)> "_local_version.txt"
 echo.
 echo  Atualizado com sucesso para v%REMOTE_VER%!
 echo.

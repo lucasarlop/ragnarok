@@ -1,5 +1,4 @@
-@echo off
-:: FoxHT Patch v4 - Fixes + Traducao EN (itens e skills)
+:: FoxHT Patch v5 - Fixes + Traducao EN (itens e skills)
 :: Este arquivo e baixado e executado pelo launcher automaticamente
 
 set "REPO=https://raw.githubusercontent.com/lucasarlop/ragnarok/main"
