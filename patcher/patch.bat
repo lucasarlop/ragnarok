@@ -1,4 +1,4 @@
-:: FoxHT Patch v6 - Fix itemInfo corrigido + Bragi Scroll
+:: FoxHT Patch v7 - Fix instancias + quest data
 :: Este arquivo e baixado e executado pelo launcher automaticamente
 
 set "REPO=https://raw.githubusercontent.com/lucasarlop/ragnarok/main"
@@ -45,7 +45,15 @@ if exist "System\itemInfo_true.lub" (
     echo         Verifique sua conexao com a internet.
 )
 
-echo  [5/5] Limpando arquivos antigos desnecessarios...
+echo  [5/6] Limpando arquivos antigos desnecessarios...
 del /q "data\luafiles514\lua files\datainfo\iteminfo.lua" 2>nul
+
+echo  [6/6] Atualizando dados de quests (Abyssal Facility)...
+curl -s -f -L "%REPO%/client/data/questid2display.txt" -o "data\questid2display.txt" 2>nul
+if exist "data\questid2display.txt" (
+    echo         Quest data atualizado!
+) else (
+    echo         [AVISO] Falha ao baixar quest data.
+)
 
 echo  Patches aplicados!
